@@ -1,16 +1,16 @@
 var con = require('../connector');
 
-var dailyCountService = {
+var dc_casesService = {
 
-    getAllDailyCount : () => {
-
-        var sql = `select * from daily_count`;
+    getAlldc_cases : () => {
+        
+        var sql = 'select * from dc_cases';
 
         return new Promise((resolve,reject) => {
 
             con.query(sql,(err,data) => {
 
-                if(err) 
+                if(err)
                 reject({
                     status : 500,
                     success : false,
@@ -21,25 +21,51 @@ var dailyCountService = {
                 resolve({
                     status : 200,
                     success : true,
-                    message : 'data retrieved successfully',
+                    message : 'Data fetched successfully',
+                    data : data
+                });
+
+            });
+        });
+    },
+
+    finddc_cases : inputdata => {
+
+        var sql = `select * from dc_cases where dcs_meta_id = "${inputdata.dcs_meta_id}"`;
+
+        return new Promise((resolve,reject) => {
+
+            con.query(sql,inputdata,(err,data) => {
+
+                if(err)
+                reject({
+                    status : 500,
+                    success : false,
+                    message : err.sqlMessage,
+                    error : err.message
+                });
+
+                resolve({
+                    status : 200,
+                    success : true,
+                    message : 'data fetched successfully',
                     data : data
                 });
 
             });
 
         });
-
     },
 
-    findDailyCount : inputdata => {
+    adddc_cases : inputdata => {
 
-        var sql = `select * from daily_count where dc_metainstance_id = "${inputdata.dc_metainstance_id}"`;
+        var sql = `insert into dc_cases set ?`;
 
         return new Promise((resolve,reject) => {
 
             con.query(sql,inputdata,(err,data) => {
 
-                if(err) 
+                if(err)
                 reject({
                     status : 500,
                     success : false,
@@ -50,25 +76,25 @@ var dailyCountService = {
                 resolve({
                     status : 200,
                     success : true,
-                    message : 'data retrieved successfully',
+                    message : 'Data inserted successfully',
                     data : data
+
                 });
 
             });
 
         });
-
     },
 
-    addDailyCount : inputdata => {
+    updatedc_cases : inputdata => {
 
-        var sql = `insert into daily_count set ? `;
+        var sql = `update dc_cases set ? where dcs_meta_id = "${inputdata.dcs_meta_id}"`;
 
         return new Promise((resolve,reject) => {
 
             con.query(sql,inputdata,(err,data) => {
 
-                if(err) 
+                if(err)
                 reject({
                     status : 500,
                     success : false,
@@ -79,59 +105,26 @@ var dailyCountService = {
                 resolve({
                     status : 200,
                     success : true,
-                    message : 'data inserted successfully',
-                    data : data,
-//                    insertId : data.insertId
-                  //  affectedRows : data.affectedRows
-                });
-
-            });
-
-        });
-
-    },
-
-    updateDailyCount : inputdata => {
-
-        var sql = `update daily_count set ? where dc_metainstance_id = "${inputdata.dc_metainstance_id}"`;
-
-        return new Promise((resolve,reject) => {
-
-            con.query(sql,inputdata,(err,data) => {
-
-                if(err) 
-                reject({
-                    status : 500,
-                    success : false,
-                    message : err.sqlMessage,
-                    error : err.message
-                });
-
-                resolve({
-                    status : 200,
-                    success : true,
-                    message : 'updated records successfully',
+                    message : 'Record updateed successfully',
                     affectedRows : data.affectedRows
                 });
 
             });
-
         });
-
     },
 
-    deleteDailyCount : inputdata => {
+    deletedc_cases : inputdata => {
 
-        var sql = `delete from daily_count where dc_metainstance_id = "${inputdata.dc_metainstance_id}"`;
-
+        var sql = `delete from dc_cases where dcs_meta_id = "${inputdata.dcs_meta_id}"`;
+                            
         return new Promise((resolve,reject) => {
 
             con.query(sql,inputdata,(err,data) => {
 
-                if(err) 
+                if(err)
                 reject({
                     status : 500,
-                    success : false,
+                    success : true,
                     message : err.sqlMessage,
                     error : err.message
                 });
@@ -139,16 +132,15 @@ var dailyCountService = {
                 resolve({
                     status : 200,
                     success : true,
-                    message : 'Records deleted successfully',
+                    message : 'Record deleted successfully',
                     data : data
-                   // affectedRows : data.affectedRows
-                });
-
+                })
             });
-
         });
-
     }
+
+    
+
 }
 
-module.exports = dailyCountService
+module.exports = dc_casesService
