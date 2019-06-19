@@ -20,5 +20,7 @@ app.use('/sample/daily_count', require('./Router/dailyCountRouter'));
 app.use('/sample/dc_cases', require('./Router/dc_casesRouter'));
 app.use('/sample/hwc_case_crop', require('./Router/hwc_case_cropRouter'));
 app.use('/sample/hwc_case_hd', require('./Router/hwc_case_hdRouter'));
+app.use('/sample/hwc_case_hi',require('./Router/hwc_case_hiRouter'));
+app.use('/sample/com_cases_details', require('./Router/com_cases_detailsRouter'));
 
 app.listen( !!process.env.port ? process.env.port : 8080 ,()=> console.log(`server is running on the port: `+ ( !!process.env.port ? process.env.port : 8080)));      
